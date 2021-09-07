@@ -1,0 +1,239 @@
+
+	<!DOCTYPE html>
+	<!-- saved from url=(0019)http://uumoc.github.io/ -->
+	<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+		<title> 宇联商务部和交通部-UUMOC </title>
+		<meta name="Keywords" content="宇联商务部和交通部,UUMOC,">
+		<meta name="Description" content="宇联商务部和交通部,UUMOC">
+		<link rel="stylesheet" href="">
+		<style type="text/css">
+			@font-face {
+			  font-family: 'Italiana';
+			  font-style: normal;
+			  font-weight: 400;
+			  src: local('Italiana'), local('Italiana-Regular'), url() format('woff2');
+			  src: local('Italiana2'), local('Italiana-Regular'), url() format('woff2')
+			  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+			}
+			
+			body {
+			    background: #FFFFFF;
+			    margin: 0px;
+			    padding: 0px
+			    color: rgba(51, 51, 61, 0.77);
+				text-align: center; 
+				overflow: hidden; 
+			}
+			.heading{
+				position: absolute;
+			    top: calc(50% - 135px); 
+			    text-align: center;
+			    width: 100%; 
+			}
+	
+			.logo {
+				text-align: center;
+				overflow: hidden;
+				font: 150px 'Italiana', sans-serif; 
+				color: #fFF34B3;
+				background-image: -webkit-linear-gradient(92deg,#F3264C,#feab3a);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				-webkit-animation: hue 60s infinite linear;
+			}
+			/* mobile.css */
+			@media screen and (max-width: 550px) {
+				.logo {
+					font-size: calc(100vw / 3.3); 
+				}
+			}
+	
+			.tagline {
+				margin:auto;
+				text-align: left;
+				font-family: 'Italiana2', sans-serif; 
+				font-size: 14px; 
+				width: 300px;
+			}
+	
+			p{
+				margin:5px;
+			}
+	
+			pre {
+				font-family: 'Italiana', sans-serif; 
+			}
+	
+			@-webkit-keyframes hue {
+			  from {
+			    -webkit-filter: hue-rotate(0deg);
+			  }
+	
+			  to {
+			    -webkit-filter: hue-rotate(-360deg);
+			  }
+			}
+	
+			.footer {
+				width: 100%;
+				position: absolute;
+				bottom: 10px;
+				margin:auto;
+				text-align: center;
+				font-family: 'Italiana', sans-serif; 
+				color: gray;
+				font-size: 13px;
+			}
+			#gt-ft-res {
+				padding: 0 28px;
+				line-height: 48px;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				position: fixed;
+				border-top: 1px solid #cccccc;
+				background-color: #efefef;
+				z-index: 10;
+				}
+			#ft-l {float: left;}
+			#ft-r {float: right;}
+			#gt-c a, .gt-hats a {color: #15c;text-decoration: none;}
+			#gt-ft-res a, #gt-ft-res a:visited {
+				font-family: "Roboto",sans-serif;
+				font-size: 12px;
+				color: #757575;
+				margin-right: 2em;
+				}
+		</style>
+	</head>
+	<body>
+		<section class="heading zoomIn animated">
+			<div class="logo">UUMOC.</div>
+			<div class="tagline">  
+				<pre>联系我们
+	名称	:	宇联商务部和交通部
+	邮箱	:	
+	</pre>
+			</div>  
+		</section>
+		<section class="footer">
+			<div id="gt-ft-res">
+				<span id="ft-l">
+					<a>© 0000-2021 UUMOC, Inc. </a>
+					<a href="https://www.universeunionbank.com/">宇联银</a>
+					<a href="/">宇联商务部和交通部</a>
+				</span>
+				<span id="ft-r">
+				<a href="/about/">更多产品</a>
+				<a href="/policies/">隐私权和使用条款</a>
+				</span>
+			</div>
+			</section>
+	
+		<canvas id="Mycanvas" width="1346" height="731"></canvas>
+		<script>
+			//定义画布宽高和生成点的个数
+			var WIDTH = window.innerWidth, HEIGHT = window.innerHeight, POINT = 35;
+			
+			var canvas = document.getElementById('Mycanvas');
+			canvas.width = WIDTH,
+			canvas.height = HEIGHT;
+			var context = canvas.getContext('2d');
+			context.strokeStyle = 'rgba(0,0,0,0.2)',
+			context.strokeWidth = 1,
+			context.fillStyle = 'rgba(0,0,0,0.1)';
+			var circleArr = [];
+	
+			//线条：开始xy坐标，结束xy坐标，线条透明度
+			function Line (x, y, _x, _y, o) {
+				this.beginX = x,
+				this.beginY = y,
+				this.closeX = _x,
+				this.closeY = _y,
+				this.o = o;
+			}
+			//点：圆心xy坐标，半径，每帧移动xy的距离
+			function Circle (x, y, r, moveX, moveY) {
+				this.x = x,
+				this.y = y,
+				this.r = r,
+				this.moveX = moveX,
+				this.moveY = moveY;
+			}
+			//生成max和min之间的随机数
+			function num (max, _min) {
+				var min = arguments[1] || 0;
+				return Math.floor(Math.random()*(max-min+1)+min);
+			}
+			// 绘制原点
+			function drawCricle (cxt, x, y, r, moveX, moveY) {
+				var circle = new Circle(x, y, r, moveX, moveY)
+				cxt.beginPath()
+				cxt.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI)
+				cxt.closePath()
+				cxt.fill();
+				return circle;
+			}
+			//绘制线条
+			function drawLine (cxt, x, y, _x, _y, o) {
+				var line = new Line(x, y, _x, _y, o)
+				cxt.beginPath()
+				cxt.strokeStyle = 'rgba(0,0,0,'+ o +')'
+				cxt.moveTo(line.beginX, line.beginY)
+				cxt.lineTo(line.closeX, line.closeY)
+				cxt.closePath()
+				cxt.stroke();
+	
+			}
+			//初始化生成原点
+			function init () {
+				circleArr = [];
+				for (var i = 0; i < POINT; i++) {
+					circleArr.push(drawCricle(context, num(WIDTH), num(HEIGHT), num(15, 2), num(10, -10)/40, num(10, -10)/40));
+				}
+				draw();
+			}
+	
+			//每帧绘制
+			function draw () {
+				context.clearRect(0,0,canvas.width, canvas.height);
+				for (var i = 0; i < POINT; i++) {
+					drawCricle(context, circleArr[i].x, circleArr[i].y, circleArr[i].r);
+				}
+				for (var i = 0; i < POINT; i++) {
+					for (var j = 0; j < POINT; j++) {
+						if (i + j < POINT) {
+							var A = Math.abs(circleArr[i+j].x - circleArr[i].x),
+								B = Math.abs(circleArr[i+j].y - circleArr[i].y);
+							var lineLength = Math.sqrt(A*A + B*B);
+							var C = 1/lineLength*7-0.009;
+							var lineOpacity = C > 0.03 ? 0.03 : C;
+							if (lineOpacity > 0) {
+								drawLine(context, circleArr[i].x, circleArr[i].y, circleArr[i+j].x, circleArr[i+j].y, lineOpacity);
+							}
+						}
+					}
+				}
+			}
+	
+			//调用执行
+			window.onload = function () {
+				init();
+				setInterval(function () {
+					for (var i = 0; i < POINT; i++) {
+						var cir = circleArr[i];
+						cir.x += cir.moveX;
+						cir.y += cir.moveY;
+						if (cir.x > WIDTH) cir.x = 0;
+						else if (cir.x < 0) cir.x = WIDTH;
+						if (cir.y > HEIGHT) cir.y = 0;
+						else if (cir.y < 0) cir.y = HEIGHT;
+						
+					}
+					draw();
+				}, 16);
+			}
+	
+		</script>
+	</body></html>
